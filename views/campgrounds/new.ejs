@@ -1,10 +1,10 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
 <div class="container">
     <div class="row">
         <h1>Create New Campground</h1>
         <div style="width: 30%; margin: 20px auto;">
-            <form action="/camgrounds" method="POST">
+            <form action="/campgrounds" method="POST">
                 <div class="form-group">
                     <input type="text" name="name" placeholder="name"/>
                 </div>
@@ -16,8 +16,8 @@
                 </div>
             </form>
 
-            <a href="/camgrounds">Go Back</a>
+            <a href="/campgrounds">Go Back</a>
         </div>
     </div>
 </div>
-<% include partials/footer %>
+<% include ../partials/footer %>

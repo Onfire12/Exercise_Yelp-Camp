@@ -10,7 +10,7 @@ var campgrounds= [
 
 router.get('/',(req,res)=>{
     
-    res.render('camgrounds.ejs',{campgrounds:campgrounds});
+    res.render('campgrounds/campgrounds.ejs',{campgrounds:campgrounds});
 })
 
 
@@ -19,11 +19,11 @@ router.post("/",(req,res)=>{
     const imgUrl = req.body.imgUrl;
     const newCampground = {name: name, imgUrl: imgUrl}
     campgrounds.push(newCampground);
-    res.redirect("/camgrounds");
+    res.redirect("/campgrounds");
 })
 
 router.get('/new',(req,res)=>{
-    res.render("new.ejs");
+    res.render("campgrounds/new.ejs");
 })
 
 

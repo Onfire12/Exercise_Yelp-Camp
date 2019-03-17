@@ -21,7 +21,7 @@ app.use(session({
 
 app.use(express.static(__dirname + '/public'));
 
-app.use('/camgrounds',campgroundController);
+app.use('/campgrounds',campgroundController);
 
 // app.set('view engine','ejs');
 
@@ -30,7 +30,9 @@ app.get('/', (req,res)=>{
     res.render("index.ejs");
 });
 
-
+app.get('/campgrounds',(req,res)=>{
+    res.render('camgrounds.ejs')
+})
 
 
 
