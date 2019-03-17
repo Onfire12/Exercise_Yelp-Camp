@@ -1,4 +1,8 @@
+<% include partials/header %>
+
 <h1>This is camgrounds page</h1>
+
+<a href="/camgrounds/new">Add New</a>
 
 <% camgrounds.forEach(function(campground){ %>
     <div>
@@ -6,3 +10,5 @@
     <img src= "<%= campground.imgUrl %>" />
      </div>   
 <% }); %>
+
+<% include partials/footer %>
