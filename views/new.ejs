@@ -1,13 +1,23 @@
 <% include partials/header %>
 
+<div class="container">
+    <div class="row">
+        <h1>Create New Campground</h1>
+        <div style="width: 30%; margin: 20px auto;">
+            <form action="/camgrounds" method="POST">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="name"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="imgUrl" placeholder="img_url"/>
+                </div>
+                <div class="form-group">
+                    <button>Submit</button>
+                </div>
+            </form>
 
-<h1>Create New Campground</h1>
-
-<form action="/camgrounds" method="POST">
-    <input type="text" name="name" placeholder="name"/>
-    <input type="text" name="imgUrl" placeholder="img_url"/>
-    <button>Submit</button>
-</form>
-
-<a href="/camgrounds">Go Back</a>
+            <a href="/camgrounds">Go Back</a>
+        </div>
+    </div>
+</div>
 <% include partials/footer %>
