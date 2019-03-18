@@ -2,31 +2,50 @@ const express = require('express');
 const router = express.Router();
 const Campgrounds = require('../models/campgrounds');
 
-var campgrounds= [
-    {name:"Salmon Creek", imgUrl:"https://farm6.staticflickr.com/5108/5789045796_27c9217bf2.jpg"},
-    {name:"Jenny Lake Camp", imgUrl:"https://farm2.staticflickr.com/1424/1430198323_c26451b047.jpg"},
-    {name:"Wye Valley Camp", imgUrl:"https://farm8.staticflickr.com/7268/7121859753_e7f787dc42.jpg"},
-]
+
 
 router.get('/',(req,res)=>{
+    Campgrounds.find({},(err,allCampgrounds)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.render('campgrounds/campgrounds.ejs',{campgrounds:allCampgrounds});
+        }
+    });
     
-    res.render('campgrounds/campgrounds.ejs',{campgrounds:campgrounds});
-})
+});
 
 
 router.post("/",(req,res)=>{
     const name = req.body.name;
     const imgUrl = req.body.imgUrl;
-    const newCampground = {name: name, imgUrl: imgUrl}
-    campgrounds.push(newCampground);
-    res.redirect("/campgrounds");
-})
+    const desc = req.body.description;
+    const newCampground = {name: name, imgUrl: imgUrl, description:desc}
+    //create a campground and save to DB
+    Campgrounds.create(newCampground, (err, newCreate)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.redirect('/campgrounds')
+        }
+    })
+    
+});
 
 router.get('/new',(req,res)=>{
     res.render("campgrounds/new.ejs");
-})
+});
 
-
+router.get('/:id',(req,res)=>{
+    //find the campground by id
+    Campgrounds.findById(req.params.id, (err, foundCampground)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.render('campgrounds/show.ejs',{campground: foundCampground})
+        }
+    })  
+});
 
 
 module.exports = router;
