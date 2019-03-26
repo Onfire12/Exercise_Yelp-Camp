@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Campgrounds = require('../models/campgrounds');
+const Campground = require('../models/campgrounds');
+const Comment = require("../models/comments");
 
 
 
 router.get('/',(req,res)=>{
-    Campgrounds.find({},(err,allCampgrounds)=>{
+    Campground.find({},(err,allCampgrounds)=>{
         if(err){
             console.log(err)
         }else{
@@ -22,7 +23,7 @@ router.post("/",(req,res)=>{
     const desc = req.body.description;
     const newCampground = {name: name, imgUrl: imgUrl, description:desc}
     //create a campground and save to DB
-    Campgrounds.create(newCampground, (err, newCreate)=>{
+    Campground.create(newCampground, (err, newCreate)=>{
         if(err){
             console.log(err);
         }else{
@@ -38,14 +39,45 @@ router.get('/new',(req,res)=>{
 
 router.get('/:id',(req,res)=>{
     //find the campground by id
-    Campgrounds.findById(req.params.id, (err, foundCampground)=>{
+    Campground.findById(req.params.id).populate("comments").exec((err, foundCampground)=>{
         if(err){
             console.log(err);
         }else{
             res.render('campgrounds/show.ejs',{campground: foundCampground})
         }
-    })  
+    })
+      
 });
+
+
+router.get('/:id/comments/new',(req,res)=>{
+    Campground.findById(req.params.id, (err,campground)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.render('comments/new.ejs', {campground: campground})
+        }
+    })   
+})
+
+router.post('/:id/comments', (req,res)=>{
+    Campground.findById(req.params.id,(err,campground)=>{
+        if(err){
+            console.log(err);
+            res.redirect("/campgrounds");
+        }else{
+            Comment.create(req.body.comment, (err,comment)=>{
+                if(err){
+                    console.log(err)
+                }else{
+                    campground.comments.push(comment);
+                    campground.save();
+                    res.redirect('/campgrounds/'+ campground._id)
+                }
+            })
+        }
+    })
+})
 
 
 module.exports = router;
