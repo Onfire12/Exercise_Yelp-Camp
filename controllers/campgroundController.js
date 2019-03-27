@@ -50,7 +50,7 @@ router.get('/:id',(req,res)=>{
 });
 
 
-router.get('/:id/comments/new',(req,res)=>{
+router.get('/:id/comments/new',isLoggedIn, (req,res)=>{
     Campground.findById(req.params.id, (err,campground)=>{
         if(err){
             console.log(err)
@@ -79,5 +79,11 @@ router.post('/:id/comments', (req,res)=>{
     })
 })
 
+function isLoggedIn(req,res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/login')
+}
 
 module.exports = router;

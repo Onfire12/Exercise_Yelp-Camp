@@ -74,8 +74,12 @@ app.post('/login',passport.authenticate("local",{
     successRedirect: "/campgrounds",
     failureRedirect: "/login"
 }),(req,res)=>{
-
 });
+
+app.get('/logout', (req,res)=>{
+    req.logout();
+    res.redirect("/campgrounds");
+})
 
 
 
