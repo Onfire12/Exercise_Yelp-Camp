@@ -6,11 +6,12 @@ const Comment = require("../models/comments");
 
 
 router.get('/',(req,res)=>{
+    console.log("loggedIn user===>", req.user)
     Campground.find({},(err,allCampgrounds)=>{
         if(err){
             console.log(err)
         }else{
-            res.render('campgrounds/campgrounds.ejs',{campgrounds:allCampgrounds});
+            res.render('campgrounds/campgrounds.ejs',{campgrounds:allCampgrounds, currentUser:req.user});
         }
     });
     
@@ -60,7 +61,7 @@ router.get('/:id/comments/new',isLoggedIn, (req,res)=>{
     })   
 })
 
-router.post('/:id/comments', (req,res)=>{
+router.post('/:id/comments', isLoggedIn, (req,res)=>{
     Campground.findById(req.params.id,(err,campground)=>{
         if(err){
             console.log(err);
