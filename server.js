@@ -9,6 +9,7 @@ const LocalStrategy = require("passport-local");
 const User = require('./models/user');
 
 const campgroundController = require('./controllers/campgroundController');
+const commentController = require('./controllers/commentController');
 const userController = require('./controllers/userController');
 
 
@@ -38,6 +39,9 @@ app.use((req,res,next)=>{
 })
 
 app.use('/campgrounds',campgroundController);
+app.use('/campgrounds/:id/comments',commentController);
+app.use('/',userController);
+
 
 // app.set('view engine','ejs');
 
@@ -49,45 +53,6 @@ app.get('/', (req,res)=>{
 app.get('/campgrounds',(req,res)=>{
     res.render('camgrounds.ejs')
 })
-
-
-//AUTH ROUTES
-
-//Register
-app.get('/register', (req,res)=>{
-    res.render('register.ejs')
-})
-
-app.post('/register',(req,res)=>{
-    let newUser = new User({username: req.body.username});
-    User.register(newUser, req.body.password, (err, user)=>{
-        if(err){
-            console.log(err);
-            return res.render("register")
-        }
-        passport.authenticate("local")(req,res,function(){
-            res.redirect('/campgrounds')
-        });
-    });
-});
-
-app.get('/login',(req,res)=>{
-    res.render('login.ejs')
-});
-
-app.post('/login',passport.authenticate("local",{
-    successRedirect: "/campgrounds",
-    failureRedirect: "/login"
-}),(req,res)=>{
-});
-
-app.get('/logout', (req,res)=>{
-    req.logout();
-    res.redirect("/campgrounds");
-})
-
-
-
 
 
 app.listen(PORT, ()=>{
