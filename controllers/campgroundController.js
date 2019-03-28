@@ -74,6 +74,7 @@ router.put("/:id", checkCampgroundOwnership,(req,res)=>{
         if(err){
             res.send(err)
         }else{
+            req.flash("success","Updated Campground Successfully")
             res.redirect("/campgrounds/"+ req.params.id)
         }
     });
@@ -85,6 +86,7 @@ router.delete("/:id",checkCampgroundOwnership,(req,res)=>{
         if(err){
             res.send(err)
         }else{
+            req.flash("success","Delete Campground Successfully")
             res.redirect("/campgrounds")
         }
     })
@@ -94,7 +96,7 @@ function isLoggedIn(req,res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    req.flash("error","Please Login first")
+    req.flash("error","Please Login first to do that")
     res.redirect('/login')
 }
 
@@ -102,16 +104,19 @@ function checkCampgroundOwnership(req,res,next){
     if(req.isAuthenticated()){
         Campground.findById(req.params.id, (err,foundCampground)=>{
             if(err){
+                req.flash("error","Campground not found")
                 res.redirect("back")
             }else{
                 if(foundCampground.author.id.equals(req.user._id)){
                     next();
                 }else{
+                    req.flash("error","You dont have permission to do that")
                     res.redirect("back")
                 }
             }
         })
     }else{
+        req.flash("error","You need to login to do that")
         res.redirect("back");
     }
 }
