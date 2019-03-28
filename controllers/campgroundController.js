@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Campground = require('../models/campgrounds');
+const Comment = require("../models/comments")
 
 
 router.get('/',(req,res)=>{
