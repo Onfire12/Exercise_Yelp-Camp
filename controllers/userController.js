@@ -23,7 +23,7 @@ router.post('/register',(req,res)=>{
 });
 
 router.get('/login',(req,res)=>{
-    res.render('login.ejs')
+    res.render('login.ejs', {message: req.flash("error")})
 });
 
 router.post('/login',passport.authenticate("local",{

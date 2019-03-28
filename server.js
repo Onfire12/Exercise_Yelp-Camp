@@ -5,6 +5,7 @@ const methodOverride = require('method-override');
 const PORT = process.env.PORT || 3000;
 const passport = require('passport');
 const LocalStrategy = require("passport-local");
+const flash = require("connect-flash")
 
 const User = require('./models/user');
 
@@ -33,6 +34,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride("_method"));
+app.use (flash());
 
 app.use((req,res,next)=>{
     res.locals.currentUser = req.user;
