@@ -52,6 +52,38 @@ router.get('/:id',(req,res)=>{
       
 });
 
+//Edit Route
+router.get("/:id/edit",(req,res)=>{
+    Campground.findById(req.params.id, (err,foundCampground)=>{
+        if(err){
+            res.redirect('/campgrounds')
+        }else{
+            res.render("campgrounds/edit.ejs", {campground: foundCampground})
+        }
+    });
+});
+
+router.put("/:id", (req,res)=>{
+    Campground.findByIdAndUpdate(req.params.id, req.body,{new:true}, (err, updatedCampground)=>{
+        if(err){
+            res.send(err)
+        }else{
+            res.redirect("/campgrounds/"+ req.params.id)
+        }
+    });
+})
+
+//Delete Route
+router.delete("/:id",(req,res)=>{
+    Campground.findByIdAndRemove(req.params.id, (err,deleteCampground)=>{
+        if(err){
+            res.send(err)
+        }else{
+            res.redirect("/campgrounds")
+        }
+    })
+})
+
 function isLoggedIn(req,res, next){
     if(req.isAuthenticated()){
         return next();

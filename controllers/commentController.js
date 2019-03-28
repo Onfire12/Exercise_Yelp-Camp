@@ -19,7 +19,7 @@ router.post('/', isLoggedIn, (req,res)=>{
             console.log(err);
             res.redirect("/campgrounds");
         }else{
-            Comment.create(req.body.comment, (err,comment)=>{
+            Comment.create(req.body, (err,comment)=>{
                 if(err){
                     console.log(err)
                 }else{

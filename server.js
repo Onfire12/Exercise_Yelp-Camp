@@ -32,6 +32,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use(express.static(__dirname + '/public'));
+app.use(methodOverride("_method"));
 
 app.use((req,res,next)=>{
     res.locals.currentUser = req.user;
