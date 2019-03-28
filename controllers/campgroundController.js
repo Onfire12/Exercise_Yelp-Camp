@@ -16,11 +16,15 @@ router.get('/',(req,res)=>{
 });
 
 
-router.post("/",(req,res)=>{
+router.post("/",isLoggedIn,(req,res)=>{
     const name = req.body.name;
     const imgUrl = req.body.imgUrl;
     const desc = req.body.description;
-    const newCampground = {name: name, imgUrl: imgUrl, description:desc}
+    const author = {
+        id:req.user._id,
+        username: req.user.username
+    }
+    const newCampground = {name: name, imgUrl: imgUrl, description:desc, author:author}
     //create a campground and save to DB
     Campground.create(newCampground, (err, newCreate)=>{
         if(err){
@@ -32,7 +36,7 @@ router.post("/",(req,res)=>{
     
 });
 
-router.get('/new',(req,res)=>{
+router.get('/new',isLoggedIn,(req,res)=>{
     res.render("campgrounds/new.ejs");
 });
 
@@ -47,6 +51,13 @@ router.get('/:id',(req,res)=>{
     })
       
 });
+
+function isLoggedIn(req,res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/login')
+}
 
 
 
