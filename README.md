@@ -7,7 +7,7 @@
 
 ## Live Demo
 
-To see the app in action, go to [https://onfire12.github.io/Exercise_Yelp-Camp/](https://onfire12.github.io/Exercise_Yelp-Camp/)
+To see the app in action, go to [https://yelpcamp-projectz.herokuapp.com/](https://yelpcamp-projectz.herokuapp.com/)
 
 ## Features
  * User login with username and password
@@ -23,9 +23,10 @@ Front-end:
 - HTML5
 
 Back-end:
-- express
-- mongoDB
-- mongoose
+- Express
+- MongoDB
+- Mongoose
 
 Deployment:
 - Heroku
+- mLab MongoDB
